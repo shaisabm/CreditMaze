@@ -1,16 +1,16 @@
 import React from 'react';
 import {StyleSheet, View} from "react-native";
 import AppText from "./AppText";
-import Icon from "./Icon";
 
-function Card({
-                  titleOne = "Today's Balance",
-                  titleTwo = "$555",
-                  subtitleOne = "2 transactions",
-                  subtitleTwo = "Yesterday: $56"
-              }) {
+function BalanceCard({
+                         titleOne = "Today's Balance",
+                         titleTwo = "$555",
+                         subtitleOne = "2 transactions today",
+                         subtitleTwo = "yesterday $56",
+                         backgroundColor = "black"
+                     }) {
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: backgroundColor}]}>
             <View>
                 <AppText styles={styles.text}>{titleOne}</AppText>
                 <AppText styles={styles.subtitle}>{subtitleOne}</AppText>
@@ -25,7 +25,6 @@ function Card({
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "black",
         height: 65,
         width: "100%",
         borderRadius: 20,
@@ -50,4 +49,4 @@ const styles = StyleSheet.create({
 
     }
 })
-export default Card;
+export default BalanceCard;
