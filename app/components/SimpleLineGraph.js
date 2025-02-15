@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, Dimensions} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {LineChart} from "react-native-chart-kit";
 import AppText from "./AppText";
 import colors from "../configs/colors";
