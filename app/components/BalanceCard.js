@@ -1,23 +1,20 @@
 import React from 'react';
 import {StyleSheet, View} from "react-native";
 import AppText from "./AppText";
+import colors from "../configs/colors";
 
 function BalanceCard({
-                         titleOne = "Today's Balance",
-                         titleTwo = "$555",
-                         subtitleOne = "2 transactions today",
-                         subtitleTwo = "yesterday $56",
-                         backgroundColor = "black"
+                         titleOne, titleTwo, subtitleOne, subtitleTwo, style, titleOneStyle, titleTwoStyle
                      }) {
     return (
-        <View style={[styles.container, {backgroundColor: backgroundColor}]}>
+        <View style={[styles.container, style]}>
             <View>
-                <AppText styles={styles.text}>{titleOne}</AppText>
-                <AppText styles={styles.subtitle}>{subtitleOne}</AppText>
+                <AppText styles={titleOneStyle || styles.text}>{titleOne}</AppText>
+                {subtitleOne && <AppText styles={styles.subtitle}>{subtitleOne}</AppText>}
             </View>
             <View style={styles.leftContainer}>
-                <AppText styles={styles.text}>{titleTwo}</AppText>
-                <AppText styles={styles.subtitle}>{subtitleTwo}</AppText>
+                <AppText styles={titleTwoStyle || styles.text}>{titleTwo}</AppText>
+                {subtitleTwo && <AppText styles={styles.subtitle}>{subtitleTwo}</AppText>}
             </View>
         </View>
     );
@@ -33,20 +30,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
 
-    },
-    text: {
-        color: "white",
-        // textTransform:"uppercase",
-        fontWeight: "bold"
+    }, text: {
+        color: "white", fontWeight: "bold"
 
-    },
-    subtitle: {
-        color: "grey",
-        fontSize: 15
-    },
-    leftContainer: {
+    }, subtitle: {
+        color: colors.lightGray, fontSize: 15
+    }, leftContainer: {
         alignItems: "flex-end"
-
     }
 })
 export default BalanceCard;
