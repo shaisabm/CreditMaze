@@ -1,79 +1,71 @@
 import React from 'react';
 import {FlatList, StyleSheet, View} from "react-native";
-import BalanceCard from "./BalanceCard";
+import TransactionCard from "./TransactionCard";
 import colors from "../configs/colors";
 import AppText from "./AppText";
+import AppButton from "./AppButton";
 
 
-function TransactionsHistory(props) {
-
-    const data = [
-        {
-            value: 1,
-            titleOne: "Withdrawal: To Checking - 9633",
-            subtitleOne: "Saving - 5984",
-            titleTwo: "-$60.00",
-            color: "white"
-        },
-        {
-            value: 2,
-            titleOne: "Withdrawal: To Checking - 9633",
-            subtitleOne: "Saving - 5984",
-            titleTwo: "$50.00",
-            color: "green"
-        },
-        {
-            value: 3,
-            titleOne: "Withdrawal: To Checking - 9633",
-            subtitleOne: "Saving - 5984",
-            titleTwo: "-$20.00",
-            color: "white"
-        },
-        {
-            value: 4,
-            titleOne: "Withdrawal: To Checking - 9633",
-            subtitleOne: "Saving - 5984",
-            titleTwo: "$90.00",
-            color: "green"
-        },
-    ]
+function TransactionsHistory({ data, preview, onPress}) {
 
     return (
         <View style={styles.container}>
             <AppText styles={styles.activityText}>Activity</AppText>
 
-            <FlatList data={data}
-                      keyExtractor={(item) => item.value.toString()}
-                      renderItem={({item}) => {
-                          return (
-                              <>
-                                  <BalanceCard titleOne={item.titleOne} style={styles.card}
-                                               titleOneStyle={styles.titleOne}
-                                               subtitleOne={item.subtitleOne}
-                                               titleTwo={item.titleTwo}
-                                               titleTwoStyle={[styles.titleTwo, {color: item.color}]}
-                                  />
-                                  <View style={styles.lineBreak}></View>
-                              </>
-                          )
-                      }}/>
+            {!preview && (<FlatList data={data}
+                                    keyExtractor={(item) => item.value.toString()}
+                                    renderItem={({item}) => {
+                                        return (
+                                            <>
+                                                <TransactionCard titleOne={item.titleOne} style={styles.card}
+                                                                 titleOneStyle={styles.titleOne}
+                                                                 subtitleOne={item.subtitleOne}
+                                                                 titleTwo={item.titleTwo}
+                                                                 titleTwoStyle={[styles.titleTwo, {color: item.color}]}
+                                                                 onPress={() => console.log("Clicked transaction " + item.value)}
+                                                />
+                                                <View style={styles.lineBreak}></View>
+                                            </>
+                                        );
+                                    }}
+            />)}
+
+
+            {preview && <View>
+                {data.map((item) => (
+                        <React.Fragment key={item.value} >
+                            <TransactionCard titleOne={item.titleOne} style={styles.card}
+                                             titleOneStyle={styles.titleOne}
+                                             subtitleOne={item.subtitleOne}
+                                             titleTwo={item.titleTwo}
+                                             titleTwoStyle={[styles.titleTwo, {color: item.color}]}
+                                             onPress={() => console.log("Clicked transaction " + item.value)}
+                            />
+                            <View style={styles.lineBreak}></View>
+
+                        </React.Fragment>
+
+                    )
+                )}
+                <AppButton title={"View All"} styleText={styles.viewAllText} onPress={onPress}/>
+            </View>}
 
         </View>
-    );
+    )
+        ;
 }
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.gray,
-        borderTopEndRadius: 20,
-        borderTopLeftRadius: 20,
+        borderRadius: 20,
         overflow: "hidden",
-        paddingTop: 15
+        paddingTop: 15,
+        flex: 1
     },
     card: {
         backgroundColor: colors.gray,
         borderRadius: 0,
-        // borderBottomWidth: 1,
 
         borderBottomColor: colors.lightGray
 
@@ -97,7 +89,16 @@ const styles = StyleSheet.create({
         width: "90%",
         height: 1,
         alignSelf: "center",
-        backgroundColor: colors.lightGray
+        backgroundColor: colors.lightGray,
+
+    },
+    viewAllText: {
+        color: colors.primary,
+        alignSelf: "center",
+        paddingVertical: 10,
+        paddingTop: 15,
+        fontWeight: "500",
+        fontSize: 13
 
     }
 
