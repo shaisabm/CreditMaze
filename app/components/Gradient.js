@@ -4,12 +4,12 @@ import {LinearGradient} from "expo-linear-gradient";
 import {Animated} from "react-native";
 
 
-function Gradient ({children, colors }) {
+function Gradient ({children, colors, style }) {
 
     const AnimatedGradient = Animated.createAnimatedComponent(LinearGradient)
 
     return (
-        <AnimatedGradient style={styles.container} colors={colors} styles={styles.container} >
+        <AnimatedGradient style={[styles.container, style]} colors={colors} styles={styles.container} >
             {children}
         </AnimatedGradient>
     );
