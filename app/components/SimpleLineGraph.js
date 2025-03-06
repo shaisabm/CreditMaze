@@ -4,11 +4,11 @@ import {LineChart} from "react-native-chart-kit";
 import AppText from "./AppText";
 import colors from "../configs/colors";
 
-function SimpleLineGraph({data, title = "SPENDING", subtitle = "$565", color="rgba(0, 208, 255, 1)", width}) {
+function SimpleLineGraph({data, title = "Title", subtitle = "$565", color="rgba(0, 208, 255, 1)", width, onPress}) {
 
 
     return (
-        <TouchableOpacity style={[styles.container, {width: width}]}>
+        <TouchableOpacity style={[styles.container, {width: width}]} onPress={onPress}>
             <View style={styles.textContainer}>
                 <AppText styles={styles.title}>{title}</AppText>
                 <AppText styles={styles.subtitle}>{subtitle}</AppText>
