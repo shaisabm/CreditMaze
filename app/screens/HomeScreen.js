@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Dimensions, ScrollView, StyleSheet, View, Modal} from "react-native";
+import React, {useRef, useState} from 'react';
+import {Dimensions, ScrollView, StyleSheet, View, Modal, ActivityIndicator, Platform} from "react-native";
 import Screen from "../components/Screen";
 import Icon from "../components/Icon";
 import colors from "../configs/colors";
@@ -11,21 +11,24 @@ import TransactionsHistory from "../components/TransactionsHistory";
 import AppNavBar from "../components/AppNavBar";
 import AppButton from "../components/AppButton";
 import ColorPicker from "react-native-wheel-color-picker";
+import Overlay from "../components/Overlay";
 
 function HomeScreen({user = "Shaisab"}) {
 
-    const [showModal, setShowModal] = useState(false);
+    const [showModel, setShowModel] = useState(false);
     const [gradientColor, setGradientColor] = useState('#0f1b43')
-    let tempColor = ''
+    const tempColor = useRef('');
 
 
     const handleSave = () => {
-        setGradientColor(tempColor);
-        setShowModal(false)
+        setShowModel(false)
+        setGradientColor(tempColor.current);
+
+
     }
     const handleOpenModal = () => {
-        tempColor = gradientColor
-        setShowModal(true)
+        tempColor.current = gradientColor
+        setShowModel(true)
     }
 
 
@@ -88,10 +91,9 @@ function HomeScreen({user = "Shaisab"}) {
 
 
     return (
-        <Gradient style={styles.gradient} colors={[gradientColor, "#000000", "#000000"]}>
+        <Gradient colors={[gradientColor, "#000000", "#000000"]} onLongPress={handleOpenModal}>
 
             <Screen>
-
                 <AppNavBar children={
                     <>
                         <Icon name={"account-cash"} size={15} color={colors.white} style={styles.icon}
@@ -100,22 +102,28 @@ function HomeScreen({user = "Shaisab"}) {
                         <Icon name={"cat"} size={24} color={colors.white}
                               onPress={() => {
                                   console.log("Clicked notifications");
-                                  handleOpenModal()
                               }}/>
                     </>
                 }/>
-                <Modal visible={showModal} animationType={"slide"}>
+
+                <Modal visible={showModel} animationType={"slide"}>
                     <View style={{
                         flex: 1,
                         backgroundColor: colors.gray,
-                        justifyContent: "center",
-                        paddingVertical: 100,
-                        paddingHorizontal: 30
+                        paddingHorizontal: 10,
+                        paddingVertical: Platform.OS === "android"? 50 : 200
 
                     }}>
-                        <ColorPicker color={tempColor} onColorChange={(color) => tempColor=color} />
+                        <ColorPicker color={tempColor.current}
+                                     onColorChangeComplete={(color) => tempColor.current = color}
+                                     sliderSize={60}
+                                     shadeSliderThumb={true}
+                                     swatches={false}
 
-                        <AppButton title={"Save"} styleButton={{marginTop: 30}} onPress={() => handleSave()}/>
+
+                        />
+
+                        <AppButton title={"Save"} styleButton={styles.modalSaveButton} onPress={() => handleSave()}/>
                     </View>
                 </Modal>
 
@@ -129,9 +137,12 @@ function HomeScreen({user = "Shaisab"}) {
                                          subtitleTwo={"yesterday $56"}
                         />
                         <View style={styles.graphContainer}>
-                            <SimpleLineGraph data={graphData} width={simpleGraphsWidth}/>
+                            <SimpleLineGraph data={graphData} width={simpleGraphsWidth} title={"SPENDING"}
+                                             onPress={() => console.log("Clicked spending graph")}/>
                             <SimpleLineGraph data={graphData} title={"EARNING"} subtitle={"$809"}
-                                             width={simpleGraphsWidth}/>
+                                             width={simpleGraphsWidth} onPress={() => {
+                                console.log("Clicked earning graph")
+                            }}/>
                         </View>
                         <TransactionsHistory
                             data={transactionHistory}
@@ -155,6 +166,7 @@ function HomeScreen({user = "Shaisab"}) {
                               onPress={() => console.log("Clicked Trade")}/>
                     </>
                 }/>
+
             </Screen>
 
         </Gradient>
@@ -205,9 +217,15 @@ const styles = StyleSheet.create({
         backgroundColor: colors.black,
         height: 80,
         justifyContent: "space-between",
-        paddingHorizontal: 30,
-        paddingBottom: 20
+        paddingHorizontal: 28,
+        borderTopWidth: 2,
+        borderColor: colors.gray,
+        paddingBottom: 10
+    },
+    modalSaveButton: {
+        marginTop: 40
     }
+
 
 })
 export default HomeScreen;
