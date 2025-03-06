@@ -1,23 +1,25 @@
 import React from 'react';
-import {StyleSheet} from "react-native";
+import {StyleSheet, TouchableHighlight} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 import {Animated} from "react-native";
 
 
-function Gradient ({children, colors, style }) {
+function Gradient({children, colors, style, onLongPress}) {
 
     const AnimatedGradient = Animated.createAnimatedComponent(LinearGradient)
 
     return (
-        <AnimatedGradient style={[styles.container, style]} colors={colors} styles={styles.container} >
-            {children}
-        </AnimatedGradient>
-    );
+        <TouchableHighlight style={[styles.container, style]} colors={colors} styles={styles.container} onLongPress={onLongPress}>
+
+            <AnimatedGradient style={[styles.container, style]} colors={colors} styles={styles.container}>
+                {children}
+            </AnimatedGradient>
+        </TouchableHighlight>);
 }
 
-const styles= StyleSheet.create({
-        container: {
-            flex: 1
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
 
 
     }
