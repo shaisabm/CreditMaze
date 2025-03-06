@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Dimensions, ScrollView, StyleSheet, View, Modal, ActivityIndicator, Platform} from "react-native";
+import {Dimensions, ScrollView, StyleSheet, View, Modal, Platform} from "react-native";
 import Screen from "../components/Screen";
 import Icon from "../components/Icon";
 import colors from "../configs/colors";
@@ -11,7 +11,6 @@ import TransactionsHistory from "../components/TransactionsHistory";
 import AppNavBar from "../components/AppNavBar";
 import AppButton from "../components/AppButton";
 import ColorPicker from "react-native-wheel-color-picker";
-import Overlay from "../components/Overlay";
 
 function HomeScreen({user = "Shaisab"}) {
 
