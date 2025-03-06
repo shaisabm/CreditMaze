@@ -1,6 +1,5 @@
 import React, {useEffect, useRef} from 'react';
 import {StyleSheet, View, Animated, Dimensions} from "react-native";
-import Constants from "expo-constants";
 
 function Overlay({animationType, visible, children, style}) {
 
@@ -62,7 +61,7 @@ function Overlay({animationType, visible, children, style}) {
                 pointerEvents: "auto",
 
             }}>
-            <View style={styles.content}>
+            <View style={[styles.content, style]}>
                 {children}
 
             </View>
